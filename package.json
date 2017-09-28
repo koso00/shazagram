@@ -1,0 +1,24 @@
+{
+  "name": "acrcloud",
+  "version": "1.0.0",
+  "description": "Recognize audio recordings with the ACRCloud recognition API",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "acr",
+    "acrcloud",
+    "audio",
+    "music",
+    "song"
+  ],
+  "author": "Arron Hunt",
+  "license": "ISC",
+  "dependencies": {
+    "download-file": "^0.1.5",
+    "fluent-ffmpeg": "^2.1.2",
+    "request": "latest",
+    "telegram-bot-api": "^1.2.0"
+  }
+}

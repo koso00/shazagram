@@ -1,10 +1,8 @@
-FFMPEG_PATH = "C:\Users\Danilo\Desktop\acrcloud-npm\ffmpeg-20170921-183fd30-win64-static\bin";
-FFPROBE_PATH = "C:\Users\Danilo\Desktop\acrcloud-npm\ffmpeg-20170921-183fd30-win64-static\bin";
 
 var acrcloud = require('./src/arc.js');
 var telegram = require('telegram-bot-api');
 var download = require('download-file');
-spawn = require('child_process');
+var spawn = require('child_process').exec;
 
 var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -23,6 +21,12 @@ var acr = new acrcloud({
     access_secret: 'a3ZBDu1kJsMVAI25JXNeRe29FB3tKeO9efVh4Btg'
 })
 
+
+
+
+
+
+
 api.on("message",function(message){
   console.log(message);
 
@@ -36,16 +40,26 @@ api.on("message",function(message){
       url = "https://api.telegram.org/file/bot"+config.token+"/"+data.file_path;
       download(url,{directory : __dirname ,filename : "audio.oga"},function(){
         console.log("audio downloaded")
+        if (fs.existsSync(__dirname + "/audio.mp3")) {
+          fs.unlink(__dirname + "/audio.mp3");
+        }
 
-        const child = spawn('ffmpeg');
+        spawn(__dirname + '/ff.bat' , function(error, stdout, stderr) {
+          }).on("close",function(){
 
+            let path = __dirname  + "/audio.mp3";
 
-        let path = __dirname  + "/audio.oga";
+            acr.identify(path, function (err, metadata) {
+                if (err) console.log(err)
+                console.log(metadata)
+                
+            })
 
-        acr.identify(path, function (err, metadata) {
-            if (err) console.log(err)
-            console.log(metadata)
         })
+
+
+
+
       })
     })
 
